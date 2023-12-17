@@ -1,0 +1,28 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "loki",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "js": "^0.1.0",
+    "lucide": "^0.292.0",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.0.1",
+    "nodemon": "^3.0.2",
+    "punycode": "^2.3.1",
+    "puppeteer": "^21.6.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-top-loading-bar": "^2.3.1",
+    "uuid": "^9.0.1"
+  }
+}

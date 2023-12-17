@@ -1,0 +1,223 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width">
+  <link rel="icon" href="cs.png" type="image/x-icon">
+  <title>CompareNShop</title>
+  <link rel="stylesheet" href="bootstrap.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header id="header">
+    <div id="mnhdr">
+      <div class="wrapper">
+        <input type="checkbox" id="btn" hidden>
+        <label for="btn" class="menu-btn label">
+          &#9776;
+        </label>
+        <div id="sidebar">
+          <div class="profile">
+            <label id="uname" name="uname">
+              <%if(userProfile!==""){%>
+                <%=userProfile%>
+                  <%}else{%>
+                    user id
+                    <%}%>
+            </label>
+          </div>
+          <div class="list-items">
+            <label class="smallcont1"><i data-lucide="History"></i>&nbsp;&nbsp;History</label>
+            
+            <div id="historyData" style="opacity:0.5;font-weight: 400; line-height: 1px;text-align: left;">
+              <%if (userHistory.length!=0){for (let i=0;i<userHistory.length && i<3;i++){%>
+                <a onclick="startLoading()" href="/index?search=<%=userHistory[i]%>">
+                  <p class="historyItem">
+                    <i data-lucide="search"></i>
+                    <% if (userHistory[i].length> 23) { %>
+                      <%= userHistory[i].substring(0, 20) + "..." %>
+                        <% } else { %>
+                          <%= userHistory[i] %>
+                            <% } %>
+                  </p>
+                </a>
+                <%}%>
+                  <%if (userHistory.length>3){%>
+                    <p id="showmore" style="text-align: left;cursor:pointer;margin-right: 75px;"><i
+                        data-lucide="more-horizontal"></i>&nbsp;&nbsp;show more</p>
+                    <%}%>
+                      <%}%>
+            </div>
+            <div>
+              <p class="smallCont"><a href="#about"><span class="smallCont1"><i data-lucide="info"></i>&nbsp;&nbsp;About</span></a></p>
+              <p class="smallCont"><a href="/"><span class="smallCont1"><i data-lucide="log-out"></i>&nbsp;&nbsp;Logout</span></a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <img id="img1m" src="wl.png">
+      <img id="img2m" src="logot.png">
+      <div id="navigationm">
+        <% if (combinedData.length==0){%>
+          <a href="#here"><span class="smallCont2"><i data-lucide="play"></i></span></a>
+          <%}else{%>
+            <a id="mt" href="#"></a>
+            <%}%>
+              <a href="/index"><span class="smallCont2"><i data-lucide="home"></i></span></a>
+      </div>
+    </div>
+    <img id="img1d" src="wl.png">
+    <img id="img2d" src="logot.png">
+    
+    <div id="srch">
+      <form action="/index" method="get">
+        <span id="searchbar">
+          <input id="search" type="text" name="search" placeholder="Search Product" spellcheck="false">
+          <button id="searchbtn" type="submit"><img class="searchimg" src="search.png"></button>
+        </span>
+      </form>
+      <div id="filters">
+        <label class="srt">Sort <i data-lucide="arrow-down-up"></i>:</label>
+        <select id="sort">
+          <option id="selected">Price</option>
+          <option value="low-high">low-high</option>
+          <option value="high-low">high-low</option>
+        </select>
+      </div>
+    </div>
+    
+    <div id="navigationd">
+      <% if (combinedData.length==0){%>
+        <a href="#here"><span class="smallCont2"><i data-lucide="play"></i>Tutorial</span></a>
+        <%}else{%>
+          <a id="mt" href="#"></a>
+          <%}%>
+            <a href="/index"><span class="smallCont2"><i data-lucide="home"></i>Home</span></a>
+    </div>
+  </header>
+
+  <section id="section">
+    
+    <div id="loading">
+      <div class="spinner-border" role="status" style="position: fixed;">
+      </div>
+    </div>
+    <div id="container" class="container" style="background-color:white; border-radius: 20px;">
+      <% if (combinedData.length!=0){%>
+        <%for (data of combinedData){%>
+          <!--displaying data fetched starts here-->
+          <div class="item">
+            <a class="anchor" href="<%=data.link%>" target="_blank">
+              <img class="item-img" src="<%=data.photo%>" alt="<%=data.name%>">
+              <div class="middle">
+                <h4 class="companyName">
+                  <%=data.pcompany%>
+                </h4>
+                <h5 class="productName">
+                  <%=data.name%>
+                </h5>
+                <p class="description">
+                  <%=data.description%>
+                </p>
+              </div>
+              <div style="margin: 1rem;">
+                <img class="item-logo company" <%if(data.company=="Flipkart" ){%>
+                src="flipkart.png"
+                <%}else{%>
+                  src="amazon.png"
+                  <%}%>
+                    >
+                    <h3 class="price">Price: <%=data.price%>
+                    </h3>
+              </div>
+            </a>
+          </div>
+          <!--displaying data fetched ends here-->
+          <hr>
+          <%}}else{%>
+            <!--home page code starts here-->
+            <div id="home">
+              <img id="cns" src="bgrnd.png">
+              <br><br id="here"><br><br><br><br>
+              <p style="color: rgb(0, 0, 0);text-align: center;font-size: larger;font-weight: 600;">The video below is a
+                tutorial of how
+                CompareNShop can be used</p>
+              <div style="text-align: center;" id="vd">
+                <video id="tvd" controls autoplay loop muted class="p-1">
+                  <source src="tutorial.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <br>
+            </div>
+            <!--home page code ends here-->
+            <%}%>
+    </div>
+    <!--main page ends here-->
+
+    <!--history begins here-->
+    <div id="showMoreContainer" class="d-none">
+      <div id="history">
+        <h1>Search History</h1>
+        <%if (userHistory.length!=0){for (let i=0;i<userHistory.length;i++){%>
+          <a onclick="startLoading()" href="/index?search=<%=userHistory[i]%>" class="smallCont historyItem schi"
+            style="margin-right: 60px;">
+            <i data-lucide="search"></i>
+            <% if (userHistory[i].length> 73) { %>
+              <%= userHistory[i].substring(0, 70) + "..." %>
+                <% } else { %>
+                  <%= userHistory[i] %>
+                    <% } %>
+          </a>
+          <% } }%>
+      </div>
+    </div>
+    <!--history ends here-->
+  </section>
+  <br>
+  <footer id="footer">
+    <div id="about">
+      <p id="aboutsub"><i><b>CompareNShop </b></i>is a price comparison tool that can be used to compare prices of
+        a
+        specic product from <i><b>Amazon</b></i> and <i><b>Flipkart</b></i>.
+      </p>
+      <p id="aboutsub">This is a mini project done by <b>Lokesh</b>(team lead),<b>Hari</b> and <b>Shanmuk</b>.</p>
+      <p id="aboutsub">Express js is used to fetch data from amazon and flipkart for this tool.</p>
+    </div><br>
+    <div id="contact">
+      <div id="person">
+        <h4>Lokesh</h4>
+        <div id="logos">
+          <a href="https://www.instagram.com/sai_lokesh_29/" target="_blank"><img src="insta.png" /></a>
+          <a href="https://twitter.com/sailokesh_29" target="_blank"><img src="tx.png" /></a>
+          <a href="https://www.linkedin.com/in/sailokesh29/" target="_blank"><img src="li.png" /></a>
+        </div>
+      </div>
+      <div id="person">
+        <h4>Hari</h4>
+        <div id="logos">
+          <a href="https://www.instagram.com/chinnamgariharibabu/" target="_blank"><img src="insta.png" /></a>
+          <a href="https://twitter.com/Haribabu100" target="_blank"><img src="tx.png" /></a>
+          <a href="https://www.linkedin.com/in/haribabu-chinnamgari-99a578235/" target="_blank"><img src="li.png" /></a>
+        </div>
+      </div>
+      <div id="person">
+        <h4>Shanmuk</h4>
+        <div id="logos">
+          <a href="https://www.instagram.com/shanmuk_cool/" target="_blank"><img src="insta.png" /></a>
+          <a href="https://twitter.com/ShanmukNarsimha" target="_blank"><img src="tx.png" /></a>
+          <a href="https://www.linkedin.com/in/shanmuk-narsimha-66a9b8228/" target="_blank"><img src="li.png" /></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="script1.js"></script>
+  <script src="script2.js"></script>
+  <!--scripts to show icons starts here-->
+  <script src="icon.js"></script>
+  <script>lucide.createIcons();</script>
+  <!--scripts to show icons ends here-->
+</body>
+
+</html>

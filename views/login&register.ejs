@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=700px">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+	<link rel="stylesheet" href="login&register.css">
+	<title>sign-in/sign-up</title>
+</head>
+
+<body>
+	<div class="container" id="container">
+		<div class="form-container sign-up" id="sign-up-hidden">
+			<form class="form" method="post" action="/signup">
+				<h1 >Create Account</h1>
+				<span style="margin-bottom: 40px;">or use your email for registration</span>
+				<input type="text" placeholder="Name" name="username" required maxlength="10">
+				<input type="email" placeholder="Email" name="email" required>
+				<input type="password" placeholder="new Password" name="password" id="newPassword" minlength="8">
+				<input type="password" placeholder="Conform Password" name="conformPassword" id='conformPassword'
+					required>
+				<p id="warningMsg" class="p"></p>
+				<button type="submit" onclick="validate()">Sign Up</button>
+			</form>
+
+		</div>
+		<div class="form-container sign-in">
+			<form method="post" action="/signin" class="form">
+				<h1>Sign In</h1>
+				<%if(p.length!==0){%>
+					<p style="color: red;">
+						<%=p%>
+					</p>
+					<%}%>
+						<span style="margin-bottom: 20px;">or use your email password</span>
+						<input type="email" placeholder="Email" name="email" required>
+						<input type="password" placeholder="Password" name="password" minlength="8" required>
+						<a style="cursor: pointer;" class="hidden" id="forgotten" onclick="forgot()">Forgot
+							Password?</a>
+						<button>Sign In</button>
+			</form>
+		</div>
+
+		<div class="form-container forgot" id="forgot">
+			<form method="post" action="/forgot" class="form">
+				<h1>Change Password</h1>
+				<span style="margin-bottom: 20px;">create new password</span>
+				<input type="email" placeholder="Email" name="email">
+				<input type="password" placeholder="New Password" name="password" minlength="8">
+				<input type="password" placeholder="Confirm Password" name="confirmPassword">
+				<p id="warningMsg" class="p"></p>
+				<button onclick="validate()">Save</button>
+			</form>
+		</div>
+		<div class="toggle-container">
+			<div class="toggle">
+				<div class="toggle-panel toggle-left">
+					<h1>Welcome, Friend!</h1>
+					<p>Enter your personal details to use site features</p>
+					<button class="hidden" id="login">Sign In</button>
+				</div>
+				<div class="toggle-panel toggle-right">
+					<h1>Welcome Back!</h1>
+					<p>Enter your personal details to use site features</p>
+					<button class="hidden" id="register" onclick="register()">Sign Up</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		function validate() {
+			var password = document.getElementById("newPassword");
+			var conformPassword = document.getElementById("conformPassword");
+			var warning = document.getElementById('warningMsg');
+			if (password.value !== conformPassword.value) {
+				password.value = "";
+				conformPassword.value = "";
+				warning.style.display = 'inline';
+				warning.textContent = "Passwords do not match!";
+			}
+		}
+		function forgot() {
+			let signup = document.getElementById("sign-up-hidden");
+			let forgotn = document.getElementById("forgot");
+			signup.style.display = 'none';
+			forgotn.style.display = 'block';
+		}
+		function register() {
+			let signup = document.getElementById("sign-up-hidden");
+			let forgotn = document.getElementById("forgot");
+			signup.style.display = 'block';
+			forgotn.style.display = 'none';
+		}
+	</script>
+	<script src="login&register.js"></script>
+</body>
+
+</html>
