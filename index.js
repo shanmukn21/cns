@@ -1,8 +1,3 @@
-const fs = require('fs');
-const logFile = fs.createWriteStream('./puppeteer_warnings.log', { flags: 'a' });
-process.stderr.write = (chunk, encoding, callback) => {
-  logFile.write(chunk, encoding, callback);
-};
 const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
@@ -12,17 +7,20 @@ const secretKey = crypto.randomBytes(64).toString('hex');
 const app = express();
 const PORT = process.env.PORT || 8080;
 require('dotenv').config();
+
 app.use(session({
-    secret: secretKey,
+    secret: secretKey, // Change this to a secret key
     resave: false,
     saveUninitialized: true,
 }));
+
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 const path = require('path');
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "public/assets")));
+
 const connectDB = async () => {
     try {
         const conn = await mongoose.connect(process.env.MONGO_URI);
@@ -32,23 +30,28 @@ const connectDB = async () => {
         process.exit(1);
     }
 }
+
 const user = new mongoose.Schema({
     name: String,
     email: String,
     password: String,
     history: [{ type: String }],
 });
+
 const User = mongoose.model("User", user);
+
 let combinedData = [];
 const searchQueue = [];
 let userHistory = [];
 let userProfile = "";
 let userEmail = "";
 let p = "";
+
 app.get("/", (req, res) => {
     p = "";
     res.render("login&register.ejs", { p });
 });
+
 app.post("/signup", async (req, res) => {
     try {
         const existingUser = await User.findOne({ email: req.body.email });
@@ -71,17 +74,24 @@ app.post("/signup", async (req, res) => {
         res.render("login&register.ejs", { p });
     }
 });
+
 app.post("/signin", async (req, res) => {
     try {
         const foundUser = await User.findOne({ email: req.body.email });
         if (foundUser && foundUser.password === req.body.password) {
+            // Set session data
             req.session.userProfile = foundUser.name;
             req.session.userEmail = foundUser.email;
             req.session.userHistory = foundUser.history;
+
             console.log(req.session.userProfile);
+
             combinedData = [];
+
+            // Use session data
             userHistory = req.session.userHistory;
             userProfile = req.session.userProfile;
+
             res.render("index.ejs", { combinedData, userHistory, userProfile });
         } else {
             p = "email or password is wrong";
@@ -93,6 +103,8 @@ app.post("/signin", async (req, res) => {
         res.render("login&register.ejs", { p });
     }
 });
+
+
 app.post("/forgot", async (req, res) => {
     try {
         const userEmail = req.body.email;
@@ -111,17 +123,23 @@ app.post("/forgot", async (req, res) => {
         res.render("login&register.ejs", { p });
     }
 });
+
 app.get("/index", async (req, res) => {
     let name = req.query.search;
+
     if (searchQueue.length > 0) {
+        // If there are searches in the queue, push the current search to the queue
         searchQueue.push({ name, req, res });
     } else {
+        // Otherwise, process the current search
         await processSearch(name, req, res);
     }
 });
+
 async function scrapeFlipkart(searchText,req) {
     const flipkartUrl = `https://www.flipkart.com/search?q=${searchText}`;
     const browser = await puppeteer.launch({ 
+        // headless:"new",
         args:[
             "--disable-setuid-sandbox",
             "--no-sandbox",
@@ -133,12 +151,15 @@ async function scrapeFlipkart(searchText,req) {
         : puppeteer.executablePath(),
      });
     const page = await browser.newPage();
+
     await page.goto(flipkartUrl);
     userProfile = req.session.userProfile;
     console.log("fetching",searchText,"for",userProfile,"from flipkart");
+
     const flipkartData = await page.evaluate(() => {
         const data = [];
         const products = document.querySelectorAll('div._1AtVbE.col-12-12');
+
         products.forEach(product => {
             const nameElement = product.querySelector('div._4rR01T, div.s1Q9rs,a.s1Q9rs,div._2WkVRV');
             const priceElement = product.querySelector('div._1_WHN1, div._30jeq3');
@@ -155,16 +176,21 @@ async function scrapeFlipkart(searchText,req) {
             const description = descriptionElement ? descriptionElement.textContent : "";
             const photo = photoElement.src;
             const link = linkElement.href;
+
             data.push({ company: 'Flipkart', pcompany, name, price, description, photo, link });
         });
+
         return data;
     });
+
     await browser.close();
     return flipkartData;
 }
+
 async function scrapeAmazon(searchText,req) {
     const amazonUrl = `https://www.amazon.in/s?k=${searchText}`;
     const browser = await puppeteer.launch({ 
+        // headless:"new",
         args:[
             "--disable-setuid-sandbox",
             "--no-sandbox",
@@ -176,12 +202,15 @@ async function scrapeAmazon(searchText,req) {
         : puppeteer.executablePath(),
      });
     const page = await browser.newPage();
+
     await page.goto(amazonUrl);
     userProfile = req.session.userProfile;
     console.log("fetching",searchText,"for",userProfile,"from amazon");
+
     const amazonData = await page.evaluate(() => {
         const data = [];
         const products = document.querySelectorAll('div.sg-col-20-of-24.s-result-item.s-asin.sg-col-0-of-12.sg-col-16-of-20.sg-col.s-widget-spacing-small.sg-col-12-of-16,div.sg-col-4-of-24.sg-col-4-of-12.s-result-item.s-asin.sg-col-4-of-16.sg-col.s-widget-spacing-small.sg-col-4-of-20');
+
         products.forEach(product => {
             const nameElement = product.querySelector('span.a-size-medium.a-color-base.a-text-normal,span.a-size-base-plus.a-color-base.a-text-normal');
             const pcompanyElement = product.querySelector(".a-size-mini.s-line-clamp-1,span.a-size-base-plus.a-color-base");
@@ -192,28 +221,40 @@ async function scrapeAmazon(searchText,req) {
                 console.log("Skipping iteration as data not found for a product on Amazon.");
                 return;
             }
+
             const name = nameElement.textContent;
             const pcompany = pcompanyElement ? pcompanyElement.textContent : "";
             const price = priceElement.textContent;
             const photo = photoElement.src;
             const link = linkElement.href;
+
             data.push({ company: 'Amazon', pcompany, name, price, photo, link });
         });
+
         return data;
     });
+
     await browser.close();
     return amazonData;
 }
+
+
 async function processSearch(searchText, req, res) {
-    searchQueue.push({ searchText, req, res });
+    searchQueue.push({ searchText, req, res }); // Add the current search to the queue
+
     const search = searchQueue.shift();
     const searchName = search ? search.searchText : undefined;
-    let localCombinedData = [];
+
+    let localCombinedData = []; // Use a local variable for each request
+
     if (searchName === undefined || searchName === '') {
+        // Use session data
         userHistory = req.session.userHistory;
         userProfile = req.session.userProfile;
+
         res.render("index.ejs", { combinedData: localCombinedData, userHistory, userProfile });
     } else if (localCombinedData.length !== 0 && searchName === req.session.userHistory[0]) {
+        // Use session data
         userHistory = req.session.userHistory;
         userProfile = req.session.userProfile;
 
@@ -224,14 +265,20 @@ async function processSearch(searchText, req, res) {
         await scrapeFlipkartAndAmazon(searchName, req, res, localCombinedData);
     }
 }
+
 async function scrapeFlipkartAndAmazon(searchText, req, res, localCombinedData) {
     const flipkartData = await scrapeFlipkart(searchText,req);
     const amazonData = await scrapeAmazon(searchText,req);
+
+    // Combine the data
+
     for (let i = 0; i < flipkartData.length || i < amazonData.length; i++) {
         if (flipkartData[i]) localCombinedData.push(flipkartData[i]);
         if (amazonData[i]) localCombinedData.push(amazonData[i]);
     }
+
     req.session.userHistory.unshift(searchText);
+
     try {
         const foundUser = await User.findOneAndUpdate(
             { email: req.session.userEmail },
@@ -241,14 +288,20 @@ async function scrapeFlipkartAndAmazon(searchText, req, res, localCombinedData) 
     } catch (err) {
         console.log(err);
     }
+
+    // Use session data
     userHistory = req.session.userHistory;
     userProfile = req.session.userProfile;
+
     res.render("index.ejs", { combinedData: localCombinedData, userHistory, userProfile });
+
     if (searchQueue.length > 0) {
         const { searchText, req, res } = searchQueue.shift();
         processSearch(searchText, req, res);
     }
 }
+
+//Connect to the database before listening
 connectDB().then(() => {
     app.listen(PORT, () => {
         console.log("listening", PORT);
