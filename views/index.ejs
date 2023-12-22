@@ -44,13 +44,13 @@
                 </a>
                 <%}%>
                   <%if (userHistory.length>3){%>
-                    <p id="showmore" style="text-align: left;cursor:pointer;margin-right: 75px;"><i
+                    <p id="showmore" onclick="document.getElementById('btn').checked = false;" style="text-align: left;cursor:pointer;margin-right: 75px;"><i
                         data-lucide="more-horizontal"></i>&nbsp;&nbsp;show more</p>
                     <%}%>
                       <%}%>
             </div>
             <div>
-              <p class="smallCont"><a href="#about"><span class="smallCont1"><i data-lucide="info"></i>&nbsp;&nbsp;About</span></a></p>
+              <p class="smallCont"><a href="#about" onclick="document.getElementById('btn').checked = false;"><span class="smallCont1"><i data-lucide="info"></i>&nbsp;&nbsp;About</span></a></p>
               <p class="smallCont"><a href="/"><span class="smallCont1"><i data-lucide="log-out"></i>&nbsp;&nbsp;Logout</span></a></p>
             </div>
           </div>
@@ -103,7 +103,7 @@
       <div class="spinner-border" role="status" style="position: fixed;">
       </div>
     </div>
-    <div id="container" class="container" style="background-color:white; border-radius: 20px;">
+    <div id="container" style="background-color:white; border-radius: 20px;">
       <% if (combinedData.length!=0){%>
         <%for (data of combinedData){%>
           <!--displaying data fetched starts here-->
@@ -207,7 +207,7 @@
         <div id="logos">
           <a href="https://www.instagram.com/shanmuk_cool/" target="_blank"><img src="insta.png" /></a>
           <a href="https://twitter.com/ShanmukNarsimha" target="_blank"><img src="tx.png" /></a>
-          <a href="https://www.linkedin.com/in/shanmuk-narsimha-66a9b8228/" target="_blank"><img src="li.png" /></a>
+          <a href="https://www.linkedin.com/in/shanmukn21/" target="_blank"><img src="li.png" /></a>
         </div>
       </div>
     </div>
