@@ -133,7 +133,7 @@ async function scrapeFlipkart(searchText,req) {
         : puppeteer.executablePath(),
      });
     const page = await browser.newPage();
-    await page.goto(flipkartUrl,{timeout: 360000});
+    await page.goto(flipkartUrl);
     userProfile = req.session.userProfile;
     console.log("fetching",searchText,"for",userProfile,"from flipkart");
     const flipkartData = await page.evaluate(() => {
@@ -176,7 +176,7 @@ async function scrapeAmazon(searchText,req) {
         : puppeteer.executablePath(),
      });
     const page = await browser.newPage();
-    await page.goto(amazonUrl,{timeout: 360000});
+    await page.goto(amazonUrl);
     userProfile = req.session.userProfile;
     console.log("fetching",searchText,"for",userProfile,"from amazon");
     const amazonData = await page.evaluate(() => {
