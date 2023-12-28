@@ -283,14 +283,47 @@ label {
 .item {
   margin: 0.5rem;
   max-height: 15rem;
+  align-items: center;
   height: 100%;
   width: 100%;
+}
+
+#proimg {
+  width: 14rem;
+  align-items: center;
+  align-content: center;
+  margin: auto;
+  padding: auto;
+}
+
+.companyName {
   overflow: hidden;
+  max-height: 1.9rem;
+}
+
+.productName {
+  overflow: hidden;
+  max-height: 1.615rem;
+}
+
+.description {
+  overflow: hidden;
+  max-height: 4.4rem;
 }
 
 .middle {
-  max-height: 8rem;
-  max-width: 40rem;
+  align-items: center;
+  align-content: center;
+  padding: auto;
+  margin: auto;
+  text-align: left;
+  max-width: 50%;
+  flex-grow: 1;
+}
+
+.priceTag {
+  padding: auto;
+  margin: auto;
 }
 
 .item-img {
@@ -353,7 +386,12 @@ label {
     width: 600px;
   }
 }
-@media (max-width: 768px){.middle{max-width: 30%;}}
+
+@media (max-width: 738px) {
+  .middle {
+    max-width: 35%;
+  }
+}
 
 #history a {
   padding: 10px;
@@ -612,7 +650,9 @@ footer {
   #tvd {
     width: 80%
   }
-
+  .description {
+    max-height: 4.2rem;
+  }
   #vd {
     background-image: url(laptop.png);
     padding: 2.5% 1% 2.5%;
@@ -621,7 +661,7 @@ footer {
     background-size: contain;
     margin-bottom: 100px;
   }
-  
+
   #showMoreContainer {
     padding-top: 2rem;
   }

@@ -231,7 +231,7 @@ async function scrapeFlipkartAndAmazon(searchText, req, res, localCombinedData) 
         if (flipkartData[i]) localCombinedData.push(flipkartData[i]);
         if (amazonData[i]) localCombinedData.push(amazonData[i]);
     }
-    req.session.userHistory.unshift(searchText);
+    
     try {
         const foundUser = await User.findOneAndUpdate(
             { email: req.session.userEmail },
@@ -243,6 +243,9 @@ async function scrapeFlipkartAndAmazon(searchText, req, res, localCombinedData) 
     }
     userHistory = req.session.userHistory;
     userProfile = req.session.userProfile;
+    if (userHistory) {
+        req.session.userHistory.unshift(searchText);
+    }
     res.render("index.ejs", { combinedData: localCombinedData, userHistory, userProfile });
     if (searchQueue.length > 0) {
         const { searchText, req, res } = searchQueue.shift();

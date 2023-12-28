@@ -31,7 +31,7 @@
             <label class="smallcont1"><i data-lucide="History"></i>&nbsp;&nbsp;History</label>
             
             <div id="historyData" style="opacity:0.5;font-weight: 400; line-height: 1px;text-align: left;">
-              <%if (userHistory.length!=0){for (let i=0;i<userHistory.length && i<3;i++){%>
+              <%if (userHistory && (userHistory.length!=0)){for (let i=0;i<userHistory.length && i<3;i++){%>
                 <a onclick="startLoading()" href="/index?search=<%=userHistory[i]%>">
                   <p class="historyItem">
                     <i data-lucide="search"></i>
@@ -109,7 +109,9 @@
           <!--displaying data fetched starts here-->
           <div class="item">
             <a class="anchor" href="<%=data.link%>" target="_blank">
-              <img class="item-img" src="<%=data.photo%>" alt="<%=data.name%>">
+              <div id="proimg">
+              <img class="item-img" src="<%=data.photo%>" alt="<%=data.name%>" style="text-align:center">
+            </div>
               <div class="middle">
                 <h4 class="companyName">
                   <%=data.pcompany%>
@@ -121,15 +123,15 @@
                   <%=data.description%>
                 </p>
               </div>
-              <div style="margin: 1rem;">
+              <div class="priceTag">
                 <img class="item-logo company" <%if(data.company=="Flipkart" ){%>
                 src="flipkart.png"
                 <%}else{%>
                   src="amazon.png"
                   <%}%>
                     >
-                    <h3 class="price">Price: <%=data.price%>
-                    </h3>
+                    <h5 class="price">Price: <%=data.price%>
+                    </h5>
               </div>
             </a>
           </div>
@@ -160,7 +162,7 @@
     <div id="showMoreContainer" class="d-none">
       <div id="history">
         <h1>Search History</h1>
-        <%if (userHistory.length!=0){for (let i=0;i<userHistory.length;i++){%>
+        <%if (userHistory && (userHistory.length!=0)){for (let i=0;i<userHistory.length;i++){%>
           <a onclick="startLoading()" href="/index?search=<%=userHistory[i]%>" class="smallCont historyItem schi"
             style="margin-right: 60px;">
             <i data-lucide="search"></i>
