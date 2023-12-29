@@ -208,8 +208,6 @@ async function scrapeAmazon(searchText,req) {
     console.timeEnd(`amazon-${searchText}`);
     return amazonData;
 }
-// ... (existing code)
-
 async function processSearch(searchText, req, res) {
     searchQueue.push({ searchText, req, res });
     const search = searchQueue.shift();
@@ -226,50 +224,40 @@ async function processSearch(searchText, req, res) {
         res.render("index.ejs", { combinedData: localCombinedData, userHistory, userProfile });
     } else {
         localCombinedData = [];
+        const puppeteer = require('puppeteer');
         await scrapeFlipkartAndAmazon(searchName, req, res, localCombinedData);
     }
 }
-
 async function scrapeFlipkartAndAmazon(searchText, req, res, localCombinedData) {
+    console.time("total-scrape-time");
+    const flipkartData = await scrapeFlipkart(searchText,req);
+    const amazonData = await scrapeAmazon(searchText,req);
+    for (let i = 0; i < flipkartData.length || i < amazonData.length; i++) {
+        if (flipkartData[i]) localCombinedData.push(flipkartData[i]);
+        if (amazonData[i]) localCombinedData.push(amazonData[i]);
+    }
+    
     try {
-        console.time("total-scrape-time");
-        const [flipkartData, amazonData] = await Promise.all([
-            scrapeFlipkart(searchText, req),
-            scrapeAmazon(searchText, req),
-        ]);
-
-        for (let i = 0; i < flipkartData.length || i < amazonData.length; i++) {
-            if (flipkartData[i]) localCombinedData.push(flipkartData[i]);
-            if (amazonData[i]) localCombinedData.push(amazonData[i]);
-        }
-
-        await User.findOneAndUpdate(
+        const foundUser = await User.findOneAndUpdate(
             { email: req.session.userEmail },
             { $set: { history: req.session.userHistory } },
             { new: true }
         );
-
-        userHistory = req.session.userHistory;
-        userProfile = req.session.userProfile;
-
-        if (userHistory) {
-            req.session.userHistory.unshift(searchText);
-        }
-
-        res.render("index.ejs", { combinedData: localCombinedData, userHistory, userProfile });
-
-        if (searchQueue.length > 0) {
-            const { searchText, req, res } = searchQueue.shift();
-            processSearch(searchText, req, res);
-        }
-        console.timeEnd("total-scrape-time");
     } catch (err) {
         console.log(err);
-        res.status(500).send("Internal Server Error");
     }
+    userHistory = req.session.userHistory;
+    userProfile = req.session.userProfile;
+    if (userHistory) {
+        req.session.userHistory.unshift(searchText);
+    }
+    res.render("index.ejs", { combinedData: localCombinedData, userHistory, userProfile });
+    if (searchQueue.length > 0) {
+        const { searchText, req, res } = searchQueue.shift();
+        processSearch(searchText, req, res);
+    }
+    console.timeEnd("total-scrape-time");
 }
-
-// ... (existing code)
 connectDB().then(() => {
     app.listen(PORT, () => {
         console.log("listening", PORT);
