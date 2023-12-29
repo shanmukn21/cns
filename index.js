@@ -120,6 +120,7 @@ app.get("/index", async (req, res) => {
     }
 });
 async function scrapeFlipkart(searchText,req) {
+    console.time(`flipkart-${searchText}`);
     const flipkartUrl = `https://www.flipkart.com/search?q=${searchText}`;
     const browser = await puppeteer.launch({ 
         args:[
@@ -160,9 +161,11 @@ async function scrapeFlipkart(searchText,req) {
         return data;
     });
     await browser.close();
+    console.timeEnd(`flipkart-${searchText}`);
     return flipkartData;
 }
 async function scrapeAmazon(searchText,req) {
+    console.time(`amazon-${searchText}`);
     const amazonUrl = `https://www.amazon.in/s?k=${searchText}`;
     const browser = await puppeteer.launch({ 
         args:[
@@ -202,6 +205,7 @@ async function scrapeAmazon(searchText,req) {
         return data;
     });
     await browser.close();
+    console.timeEnd(`amazon-${searchText}`);
     return amazonData;
 }
 async function processSearch(searchText, req, res) {
@@ -225,6 +229,7 @@ async function processSearch(searchText, req, res) {
     }
 }
 async function scrapeFlipkartAndAmazon(searchText, req, res, localCombinedData) {
+    console.time("total-scrape-time");
     const flipkartData = await scrapeFlipkart(searchText,req);
     const amazonData = await scrapeAmazon(searchText,req);
     for (let i = 0; i < flipkartData.length || i < amazonData.length; i++) {
@@ -251,6 +256,7 @@ async function scrapeFlipkartAndAmazon(searchText, req, res, localCombinedData) 
         const { searchText, req, res } = searchQueue.shift();
         processSearch(searchText, req, res);
     }
+    console.timeEnd("total-scrape-time");
 }
 connectDB().then(() => {
     app.listen(PORT, () => {
