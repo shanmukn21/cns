@@ -11,65 +11,71 @@
 <body>
 
   <header id="header">
-    <div id="mnhdr">
-      <div class="wrapper">
-        <input type="checkbox" id="btn" hidden>
-        <label for="btn" class="menu-btn label">
-          &#9776;
-        </label>
-        <div id="sidebar">
-          <div class="profile">
-            <label id="uname" name="uname">
-              <%if(userProfile!==""){%>
-                <%=userProfile%>
-                  <%}else{%>
-                    user id
-                    <%}%>
-            </label>
-          </div>
-          <div class="list-items">
-            <label class="smallcont1"><i data-lucide="History"></i>&nbsp;&nbsp;History</label>
-            
-            <div id="historyData" style="opacity:0.5;font-weight: 400; line-height: 1px;text-align: left;">
-              <%if (userHistory && (userHistory.length!=0)){for (let i=0;i<userHistory.length && i<3;i++){%>
-                <a onclick="startLoading()" href="/index?search=<%=userHistory[i]%>">
-                  <p class="historyItem">
-                    <i data-lucide="search"></i>
-                    <% if (userHistory[i].length> 23) { %>
-                      <%= userHistory[i].substring(0, 20) + "..." %>
-                        <% } else { %>
-                          <%= userHistory[i] %>
-                            <% } %>
-                  </p>
-                </a>
-                <%}%>
-                  <%if (userHistory.length>3){%>
-                    <p id="showmore" onclick="document.getElementById('btn').checked = false;" style="text-align: left;cursor:pointer;margin-right: 75px;"><i
-                        data-lucide="more-horizontal"></i>&nbsp;&nbsp;show more</p>
-                    <%}%>
+
+    <div id="headl">
+      <div id="mnhdr">
+        <div class="wrapper">
+          <input type="checkbox" id="btn" hidden>
+          <label for="btn" class="menu-btn label">
+            &#9776;
+          </label>
+          <div id="sidebar">
+            <div class="profile">
+              <label id="uname" name="uname">
+                <%if(userProfile!==""){%>
+                  <%=userProfile%>
+                    <%}else{%>
+                      user id
                       <%}%>
+              </label>
             </div>
-            <div>
-              <p class="smallCont"><a href="#about" onclick="document.getElementById('btn').checked = false;"><span class="smallCont1"><i data-lucide="info"></i>&nbsp;&nbsp;About</span></a></p>
-              <p class="smallCont"><a href="/"><span class="smallCont1"><i data-lucide="log-out"></i>&nbsp;&nbsp;Logout</span></a></p>
+            <div class="list-items">
+              <label class="smallcont1"><i data-lucide="History"></i>&nbsp;&nbsp;History</label>
+
+              <div id="historyData" style="opacity:0.5;font-weight: 400; line-height: 1px;text-align: left;">
+                <%if (userHistory && (userHistory.length!=0)){for (let i=0;i<userHistory.length && i<3;i++){%>
+                  <a onclick="startLoading()" href="/index?search=<%=userHistory[i]%>">
+                    <p class="historyItem">
+                      <i data-lucide="search"></i>
+                      <% if (userHistory[i].length> 23) { %>
+                        <%= userHistory[i].substring(0, 20) + "..." %>
+                          <% } else { %>
+                            <%= userHistory[i] %>
+                              <% } %>
+                    </p>
+                  </a>
+                  <%}%>
+                    <%if (userHistory.length>3){%>
+                      <p id="showmore" onclick="document.getElementById('btn').checked = false;"
+                        style="text-align: left;cursor:pointer;margin-right: 75px;"><i
+                          data-lucide="more-horizontal"></i>&nbsp;&nbsp;show more</p>
+                      <%}%>
+                        <%}%>
+              </div>
+              <div>
+                <p class="smallCont"><a href="#about" onclick="document.getElementById('btn').checked = false;"><span
+                      class="smallCont1"><i data-lucide="info"></i>&nbsp;&nbsp;About</span></a></p>
+                <p class="smallCont"><a href="/"><span class="smallCont1"><i
+                        data-lucide="log-out"></i>&nbsp;&nbsp;Logout</span></a></p>
+              </div>
             </div>
           </div>
         </div>
+        <img id="img1m" src="wl.png">
+        <img id="img2m" src="logot.png">
+        <div id="navigationm">
+          <% if (combinedData.length==0){%>
+            <a href="#here"><span class="smallCont2"><i data-lucide="play"></i></span></a>
+            <%}else{%>
+              <a id="mt" href="#"></a>
+              <%}%>
+                <a href="/index"><span class="smallCont2"><i data-lucide="home"></i></span></a>
+        </div>
       </div>
-      <img id="img1m" src="wl.png">
-      <img id="img2m" src="logot.png">
-      <div id="navigationm">
-        <% if (combinedData.length==0){%>
-          <a href="#here"><span class="smallCont2"><i data-lucide="play"></i></span></a>
-          <%}else{%>
-            <a id="mt" href="#"></a>
-            <%}%>
-              <a href="/index"><span class="smallCont2"><i data-lucide="home"></i></span></a>
-      </div>
+      <img id="img1d" src="wl.png">
+      <img id="img2d" src="logot.png">
     </div>
-    <img id="img1d" src="wl.png">
-    <img id="img2d" src="logot.png">
-    
+
     <div id="srch">
       <form action="/index" method="get">
         <span id="searchbar">
@@ -86,7 +92,7 @@
         </select>
       </div>
     </div>
-    
+
     <div id="navigationd">
       <% if (combinedData.length==0){%>
         <a href="#here"><span class="smallCont2"><i data-lucide="play"></i>Tutorial</span></a>
@@ -98,7 +104,7 @@
   </header>
 
   <section id="section">
-    
+
     <div id="loading">
       <div class="spinner-border" role="status" style="position: fixed;">
       </div>
@@ -110,8 +116,8 @@
           <div class="item">
             <a class="anchor" href="<%=data.link%>" target="_blank">
               <div id="proimg">
-              <img class="item-img" src="<%=data.photo%>" alt="<%=data.name%>" style="text-align:center">
-            </div>
+                <img class="item-img" src="<%=data.photo%>" alt="<%=data.name%>" style="text-align:center">
+              </div>
               <div class="middle">
                 <h4 class="companyName">
                   <%=data.pcompany%>

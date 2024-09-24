@@ -5,13 +5,26 @@ body {
 }
 
 #header {
+  width: 100%;
+  max-height: 109px;
   background-color: #0096c7;
   position: fixed;
   flex-direction: row;
+  justify-content: space-between;
   display: flex;
   align-items: center;
   padding: 0%;
   z-index: 10;
+}
+
+#headl {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 30%;
+  min-width: 200px;
+  max-width: 525px;
 }
 
 #mnhdr {
@@ -24,7 +37,6 @@ body {
 
 a {
   display: flex;
-  justify-content: space-between;
   flex-direction: row;
   text-decoration: none;
   color: black;
@@ -163,16 +175,15 @@ label {
 
 
 #img1d {
-  width: 4.75%;
+  width: 14%;
   margin-left: 2rem;
 }
 
 #img2d {
-  width: 18%;
+  width: 60%;
 }
 
 #searchbar {
-  margin-left: 6rem;
   display: flex;
   height: 40px;
   color: white;
@@ -189,7 +200,8 @@ label {
   font-size: 1.5rem;
   outline: 0;
   padding: 1rem;
-  width: 80%;
+  padding-right: 0;
+  width: 100%;
 }
 
 #searchbtn,
@@ -206,8 +218,6 @@ label {
 
 #filters {
   display: flex;
-
-  margin-left: 3rem;
 }
 
 #filters select {
@@ -233,10 +243,9 @@ label {
 }
 
 #navigationd {
-  margin-left: auto;
+  margin-right: 20px;
   display: flex;
-  right: 0;
-  margin-right: auto;
+  flex-direction: row;
 }
 
 #mt {
@@ -244,6 +253,8 @@ label {
 }
 
 #srch {
+  padding-left: 30px;
+  padding-right: 22px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -263,21 +274,26 @@ label {
 }
 
 #section {
-  padding-top: 120px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 12px;
+  padding-top: 120px;
 }
 
 #container {
-  margin-right: 10%;
-  margin-left: 10%;
+  background-color: white;
+  border-radius: 16px;
   padding: 10px;
   width: 100%;
   max-width: 65rem;
-  margin-top: 120px;
+}
+
+#containerp {
+  max-width: 65rem;
+  background-color: white;
+  border-radius: 16px;
 }
 
 .item {
@@ -288,12 +304,21 @@ label {
   width: 100%;
 }
 
+.item a {
+  display: flex;
+  flex-direction: row;
+}
+
 #proimg {
-  width: 14rem;
   align-items: center;
   align-content: center;
-  margin: auto;
-  padding: auto;
+}
+
+.priceTag {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .companyName {
@@ -309,21 +334,14 @@ label {
 .description {
   overflow: hidden;
   max-height: 4.4rem;
+  margin-bottom: 0rem;
 }
 
 .middle {
   align-items: center;
   align-content: center;
-  padding: auto;
-  margin: auto;
   text-align: left;
-  max-width: 50%;
   flex-grow: 1;
-}
-
-.priceTag {
-  padding: auto;
-  margin: auto;
 }
 
 .item-img {
@@ -361,7 +379,6 @@ label {
 }
 
 #showMoreContainer {
-  padding-top: 8rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -375,25 +392,18 @@ label {
   min-height: 1000px;
 }
 
-@media (max-width:354px) {
+@media (max-width: 768px) {
   #showMoreContainer {
-    width: 600px;
+    width: 100%;
   }
 }
 
-@media (max-width: 768px)and (min-width: 600px) {
-  #showMoreContainer {
-    width: 600px;
-  }
-}
-
-@media (max-width: 738px) {
-  .middle {
-    max-width: 35%;
-  }
+#history a svg {
+  margin-right: 20px;
 }
 
 #history a {
+  text-align: left;
   padding: 10px;
 }
 
@@ -425,11 +435,20 @@ footer {
   font-family: italic;
 }
 
+@media (max-width: 529px) {
+
+  #contact {
+    flex-direction: column;
+  }
+
+}
+
 #logos {
   display: flex;
   padding-left: 8rem;
   padding-right: 8rem;
   width: 100%;
+  justify-content: center;
 }
 
 @media (max-width: 1200px) {
@@ -482,9 +501,6 @@ footer {
 }
 
 @media (max-width: 1400px) {
-  #searchbar {
-    margin-left: 2rem;
-  }
 
   #filters {
     margin-left: 0rem;
@@ -505,14 +521,18 @@ footer {
   }
 }
 
+@media (min-width: 601px) and (max-width: 1072px) {
+  .smallCont2 {
+    font-size: 0;
+  }
+}
+
 @media (min-width: 601px) and (max-width: 1200px) {
   #filters {
     margin-left: 1.5rem;
   }
 
-  .smallCont2 {
-    font-size: 0;
-  }
+
 
   #img1d {
     margin-left: 0.75rem;
@@ -533,24 +553,42 @@ footer {
 
 }
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
   body {
     font-size: 14px;
   }
 
+  .productName {
+    font-size: 0.7rem;
+  }
+
+  .item {
+    width: auto;
+  }
+
+  .priceTag {
+    margin: 10px;
+  }
+
+  #containerp {
+    width: 100%;
+  }
+
   #mnhdr {
-    padding-top: 10px;
-    padding-left: 20px;
-    padding-bottom: 20px;
+    width: 100%;
+    padding: 10px;
+    align-items: center;
+  }
+
+  .searchimg {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
   }
 
   #header {
-    padding-top: 20px;
+    max-height: 175px;
     padding-bottom: 10px;
     padding-left: 0px;
-  }
-
-  #header {
     z-index: 10;
     position: fixed;
     display: flex;
@@ -560,6 +598,11 @@ footer {
     right: 0;
   }
 
+  #headl {
+    min-width: 0px;
+    width: 100%;
+  }
+
   label {
     padding-top: 0.0em;
     font-size: 2.5em;
@@ -567,12 +610,14 @@ footer {
   }
 
   #img1m {
-    width: 5%;
+    width: 0%;
+    height: 10%;
     margin-left: 0.4rem;
   }
 
   #img2m {
-    width: 40%;
+    width: 50%;
+    height: 50%;
   }
 
   #searchbar {
@@ -581,6 +626,12 @@ footer {
 
   #search {
     width: 100%;
+    font-size: 1rem;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    outline: 0;
+    padding: 1rem;
+    padding-right: 0rem;
   }
 
   #filters select {
@@ -605,10 +656,15 @@ footer {
 
   #navigationm {
     text-align: end;
-    display: block;
-    margin-left: 20%;
     display: flex;
     align-items: center;
+    position: fixed;
+    right: 20px;
+  }
+
+  #srch {
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   #mt {
@@ -628,20 +684,14 @@ footer {
   }
 
   #section {
-    padding-top: 155px;
-    margin-left: 5px;
-    width: 180%;
+    margin-top: 2%;
+    padding-top: 120px;
+    width: 100%;
   }
 
   #loading {
     padding-top: 1rem;
   }
-
-  #container {
-    margin-left: 14%;
-    margin-top: 4%;
-  }
-
 
   #home {
     width: 100%;
@@ -650,9 +700,11 @@ footer {
   #tvd {
     width: 80%
   }
+
   .description {
     max-height: 4.2rem;
   }
+
   #vd {
     background-image: url(laptop.png);
     padding: 2.5% 1% 2.5%;
@@ -662,26 +714,35 @@ footer {
     margin-bottom: 100px;
   }
 
-  #showMoreContainer {
-    padding-top: 2rem;
-  }
-
   #history {
-    margin-left: 4%;
     background-color: white;
     border-radius: 20px;
     padding: 10px;
-    width: 670px;
+    width: 100%;
     min-height: 900px;
   }
 
   #footer {
-    width: 190%;
+    width: 100%;
   }
 
   #logos {
     padding-left: 1rem;
     padding-right: 1rem;
+  }
+
+}
+
+@media (min-width: 650px) {
+
+  #proimg {
+    width: 14rem;
+    min-width: 14rem;
+  }
+
+  .priceTag {
+    min-width: 14rem;
+    width: 14rem;
   }
 
 }
