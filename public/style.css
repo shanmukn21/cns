@@ -347,7 +347,6 @@ label {
 .item-img {
   max-height: 8rem;
   max-width: 12rem;
-  margin: 1rem;
 }
 
 .item-logo {
@@ -731,7 +730,11 @@ footer {
     padding-right: 1rem;
   }
   .item-img{
-    max-width: 4rem;
+    max-width: 6rem;
+    margin-right: 8px;
+  }
+  .item-logo {
+    width: 6rem;
   }
 }
 
@@ -747,4 +750,7 @@ footer {
     width: 14rem;
   }
 
+  .item-img {
+    margin: 1rem;
+  }
 }
