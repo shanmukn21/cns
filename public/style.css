@@ -346,7 +346,7 @@ label {
 
 .item-img {
   max-height: 8rem;
-  max-width: 6rem;
+  max-width: 12rem;
   margin: 1rem;
 }
 
@@ -730,7 +730,9 @@ footer {
     padding-left: 1rem;
     padding-right: 1rem;
   }
-
+  .item-img{
+    max-width: 4rem;
+  }
 }
 
 @media (min-width: 650px) {
