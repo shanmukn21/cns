@@ -731,10 +731,10 @@ footer {
   }
   .item-img{
     max-width: 6rem;
-    margin-right: 8px;
   }
   #proimg {
     min-width: 6rem;
+    margin-right: 10px;
   }
   .item-logo {
     width: 4rem;
